@@ -23,13 +23,14 @@ htmlcov/
 # ==========================================
 # Real-IAD Dataset
 # ==========================================
+data/
 dataset/
 datasets/
 data/raw/
 data/external/
 Real-IAD/
 RealIAD/
-
+RealIAD_OpenCV/
 # ==========================================
 # Analysis Outputs
 # ==========================================
@@ -102,3 +103,8 @@ models/**/checkpoints/
 models/**/memory_bank/
 models/**/search_index/
 models/**/memory_bank*.npy
+
+# ==========================================
+# Windows Zone Identifier
+# ==========================================
+*:Zone.Identifier
