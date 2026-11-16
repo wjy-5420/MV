@@ -1,3 +1,7 @@
+## 다른 PC에서 RT-DETRv2 · UniAD · HVQ-Trans 학습
+
+배치 20 / 50에포크로 학습하고 성능·FPS·추론 GPU 메모리를 Markdown으로 저장하는 두 명령은 [실행 안내](docs/REMOTE_TRAINING.md)를 참고하세요. Ubuntu/WSL2 NVIDIA GPU 대상이며 원본 데이터와 압축 해제한 DATA v2가 필요합니다.
+
 # MV — Real-IAD 5시점 제조 외관검사
 
 WSL2 Ubuntu, Python 3.12, uv, CPU PyTorch를 기본으로 메타데이터·밝기·불량 위치·객체 라벨·원본 JPG 해상도 손실을 분석한다. 원본은 읽기 전용으로 사용하고 결과는 실행별 outputs 폴더에 보관한다. 이 분석 경로는 모델 학습을 수행하지 않는다. 모델 실험 준비 절차는 아래 별도 가이드를 따른다.
@@ -230,3 +234,23 @@ python3 scripts/inventory_dataset.py --data-root "$REALIAD_DATA_ROOT"
 
 
 해상도 전수 결과의 재집계: [상세 Markdown](reports/RESOLUTION_DETAILED_ANALYSIS.md), [파일 목록·한계·회의 결정 사항](reports/RESOLUTION_DELIVERY_GUIDE.md). 회의용 최종 PDF `reports/RESOLUTION_TEAM_MEETING_FINAL.pdf`는 Git 배포 대상이 아니므로 관리자에게 별도로 수령한다. 기존 151,050장 결과를 재사용했으며 전체 해상도 계산을 반복하지 않았다. 그래프·집계 CSV는 Git에서 제외된 outputs/resolution_detail_20261111_v2/에 있다.
+① 환경 조사 — 경로만 수정
+
+python3 scripts/remote_training/run.py survey \
+  --data-root "/데이터/Real-IAD" \
+  --release "/데이터/MV_TEAM_DATA_RELEASE_v2"
+
+② 환경 자동 설치 및 학습 시작
+
+python3 scripts/remote_training/run.py train
+
+세 모델 모두 배치 20, 50에포크로 설정했습니다. 성능·FPS·추론 GPU 메모리 보고서는 다음 위치에 저장됩니다.
+
+outputs/remote_training/run_<날짜_ID>/report.md
+
+UniAD·HVQ-Trans는 품목마다 각각 50에포크 학습합니다. 자세한 조건은 실행 안내 (docs/REMOTE_TRAINING.md)에 정리했습니다.
+
+CLI 테스트와 세 공식 모델의 CPU forward/backward 검증은 통과했습니다. 실제 GPU 학습·FPS·메모리 수치는 대상 PC에서 실행 후 확인됩니다.
+
+# 가장 최근 코덱스 작업 세션으로 돌아감
+codex resume --last 

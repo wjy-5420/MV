@@ -1,0 +1,11 @@
+{
+  "batch_size": 20,
+  "epochs": 50,
+  "seed": 42,
+  "workers": 0,
+  "learning_rate": 0.0001,
+  "weight_decay": 0.0001,
+  "benchmark_warmup": 10,
+  "benchmark_repetitions": 100,
+  "models": ["rtdetrv2", "uniad", "hvq_trans"]
+}
